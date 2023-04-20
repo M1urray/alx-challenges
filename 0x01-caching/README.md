@@ -1,6 +1,6 @@
 # Caching
 
-This project contains tasks for learning to cache data.
+This project contains tasks for learning how to cache data.
 
 ## Tasks To Complete
 
