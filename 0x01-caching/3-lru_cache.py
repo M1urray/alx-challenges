@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-''' self descriptive code '''
+"""Least Recently Used caching module.
+"""
 
 from collections import OrderedDict
 
