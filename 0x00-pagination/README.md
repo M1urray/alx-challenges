@@ -10,6 +10,7 @@ This project contains tasks for learning to paginate data.
 
 + [x] 1. **Simple pagination**[1-simple_pagination.py](1-simple_pagination.py) contains a Python script that meets the following requirements:
   + Copy `index_range` from the previous task and the following class into your code.
+
     ```python
     import csv
     import math
@@ -38,6 +39,7 @@ This project contains tasks for learning to paginate data.
         def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
             pass
     ```
+  
   + Implement a method named `get_page` that takes two integer arguments `page` with default value 1 and `page_size` with default value 10.
     + You have to use this [CSV file](Popular_Baby_Names.csv).
     + Use `assert` to verify that both arguments are integers greater than 0.
@@ -59,6 +61,7 @@ This project contains tasks for learning to paginate data.
 + [x] 3. **Deletion-resilient hypermedia pagination**[3-hypermedia_del_pagination.py](3-hypermedia_del_pagination.py) contains a Python script that meets the following requirements:
   + The goal here is that if between two queries, certain rows are removed from the dataset, the user does not miss items from dataset when changing page.
   + Start [3-hypermedia_del_pagination.py](3-hypermedia_del_pagination.py) with this code:
+
     ```python
     #!/usr/bin/env python3
     """
@@ -104,6 +107,7 @@ This project contains tasks for learning to paginate data.
         def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
             pass
     ```
+
   + Implement a `get_hyper_index` method with two integer arguments: `index` with a `None` default value and `page_size` with default value of 10.
     + The method should return a dictionary with the following key-value pairs:
     + `index`: the current start index of the return page. That is the index of the first item in the current page. For example if requesting page 3 with `page_size` 20, and no data was removed from the dataset, the current index should be 60.
