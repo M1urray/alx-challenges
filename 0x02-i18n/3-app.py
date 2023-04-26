@@ -18,11 +18,9 @@ class Config:
 app.config.from_object(Config)
 
 
-@babel.localeselector
 def get_locale():
     ''' return the best languages '''
     return request.accept_languages.best_match(Config.LANGUAGES)
-
 
 @app.route("/", methods=["GET"], strict_slashes=False)
 def hello_world():
