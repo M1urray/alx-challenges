@@ -48,10 +48,9 @@ def hello_world():
 def get_user():
     ''' return the right dictionary '''
     Id = request.args.get('login_as')
-    if Id and int(Id) in users:
-        return users[int(Id)]
-    else:
-        return None
+    if Id:
+        return users.get(int(Id))
+    return None
 
 
 if __name__ == '__main__':
