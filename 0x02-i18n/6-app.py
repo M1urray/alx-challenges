@@ -29,7 +29,7 @@ def before_request():
     ''' def before request '''
     g.user = get_user()
 
-
+@babel.localeselector
 def get_locale():
     ''' return best languages '''
     locale = request.args.get('locale')
