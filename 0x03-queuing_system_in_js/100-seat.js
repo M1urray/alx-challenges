@@ -8,15 +8,17 @@ const app = express();
 const client = createClient({ name: 'reserve_seat' });
 const queue = createQueue();
 const ORIGINAL_SEATS_COUNT = 50;
-let reservationEnabled = true;
+const reservationEnabled = false;
 const PORT = 1245;
+const getAsync = promisify(client.GET).bind(client);
+const setAsync = promisify(client.SET).bind(client);
 
 /**
  * Modifies the number of available seats.
  * @param {number} number - The new number of seats.
  */
 const reserveSeat = async (number) => {
-    return promisify(client.SET).bind(client)('available_seats', number);
+    return setAsync('available_seats', number);
 };
 
 /**
@@ -24,14 +26,12 @@ const reserveSeat = async (number) => {
  * @returns {Promise<String>}
  */
 const getCurrentAvailableSeats = async () => {
-    return promisify(client.GET).bind(client)('available_seats');
+    return getAsync('available_seats');
 };
 
 app.get('/available_seats', async (req, res) => {
-    getCurrentAvailableSeats()
-        .then((numberOfAvailableSeats) => {
-            res.json({ numberOfAvailableSeats })
-        });
+    const availableSeats = await getCurrentAvailableSeats();
+    res.json(availableSeats);
 });
 
 app.get('/reserve_seat', async (req, res) => {
@@ -64,9 +64,9 @@ app.get('/reserve_seat', async (req, res) => {
     }
 });
 
-app.get('/process', async(req, res) => {
+app.get('/process', (req, res) => {
     res.json({ status: 'Queue processing' });
-    queue.process('reserve_seat', (_job, done) => {
+    queue.process('reserve_seat', async(job, done) => {
         getCurrentAvailableSeats()
             .then((result) => Number.parseInt(result || 0))
             .then((availableSeats) => {
@@ -82,8 +82,7 @@ app.get('/process', async(req, res) => {
 });
 
 const resetAvailableSeats = async (initialSeatsCount) => {
-    return promisify(client.SET)
-        .bind(client)('available_seats', Number.parseInt(initialSeatsCount));
+    return setAsync('available_seats', Number.parseInt(initialSeatsCount));
 };
 
 app.listen(PORT, () => {
